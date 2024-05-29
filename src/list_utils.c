@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:39:25 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/29 20:50:36 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/29 21:58:27 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,26 @@ int	ft_lstsize(t_polynomial *lst)
 		len++;
 	}
 	return (len);
+}
+
+t_polynomial	*ft_lstlast(t_polynomial *lst)
+{
+	while (lst)
+	{
+		if (!lst->next)
+			return (lst);
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+
+void print_lst(t_polynomial *terms) {
+	int i = 0;
+	
+	while (terms) {
+		printf("Terms[%d] : %d * X^%d\n", i, terms->coefficient, terms->exponent);
+		terms = terms->next;
+		i++;
+	}
 }

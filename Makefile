@@ -2,15 +2,18 @@ CC = cc
 
 FLAGS = -Wall -Wextra -Werror
 
-INCLUDE = -I computorv1.h 
+INCLUDE = -I inc/
 
-SRCS = src/main.c
+SRCS = src/main.c \
+		src/list_utils.c \
+		src/parsing.c \
+		src/utils.c
 
 OBJS_BASE = $(SRCS:.c=.o)
 
 OBJS = $(addprefix obj/,$(OBJS_BASE))
 
-NAME = computorv1
+NAME = computor
 
 all: obj $(NAME)
 
@@ -20,7 +23,6 @@ obj :
 
 $(NAME) : $(OBJS)
 	@echo "\n"
-	make -C libft/
 	@echo "\033[0;32mCompiling computorv1..."
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE) $(LIB)
 	@echo "\n\033[0mDone !"
