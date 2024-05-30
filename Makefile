@@ -7,7 +7,8 @@ INCLUDE = -I inc/
 SRCS = src/main.c \
 		src/list_utils.c \
 		src/parsing.c \
-		src/utils.c
+		src/utils.c \
+		src/solver.c
 
 OBJS_BASE = $(SRCS:.c=.o)
 

@@ -6,13 +6,13 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:56:49 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/30 18:05:28 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:47:54 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computorv1.h"
 
-static void add_to_list(char *term, char sign, t_polynomial *lst_terms) {
+static void add_to_list(char *term, char sign, t_polynomial **lst_terms) {
 	double coefficient = 0.0;
 	int exponent = 0;
 	
@@ -20,21 +20,16 @@ static void add_to_list(char *term, char sign, t_polynomial *lst_terms) {
 		term++;
 	coefficient = (strchr(term, '.')) ? atof(term) : atoi(term);
 	(*term == 'X') ? coefficient = 1 : 0;
-	// printf("Coefficient =  %f\n", coefficient);
 	term = strchr(term, 'X');
 	if (term) {
 		exponent = atoi(term + 2);
 		(!is_digit(*(term + 2))) ? exponent = 1 : 0;
-		// (exponent > 2 || exponent < 0) ? printf("Wrong exponent\n") : 0;
-		// printf("Exponent = %d\n\n\n", exponent);
-	} else {
-		// printf("Exponent = %d\n\n\n", exponent);
 	}
-	ft_lstadd_back(&lst_terms, ft_lstnew(coefficient, exponent, sign, 0));
+	ft_lstadd_back(lst_terms, ft_lstnew(coefficient, exponent, sign, 0));
 }
 
 
-char	*parse_argument(char *argv, t_polynomial *lst_terms)
+char	*parse_argument(char *argv, t_polynomial **lst_terms)
 {
 	char	*parts[2];
 	char	*term;
@@ -53,14 +48,12 @@ char	*parse_argument(char *argv, t_polynomial *lst_terms)
 		(copy[0] == '-') ? sign = '-' : 0;
 		while (term) {
 			int from = term - parts[i] + strlen(term);
-			// printf("Term = %s    Sign = %c\n", term, sign);
 			add_to_list(term, sign, lst_terms);
 			term = strtok(NULL, "+-");
 			sign = *(copy + from);
 		}
 		free(copy);
-		(i == 0) ? ft_lstadd_back(&lst_terms, ft_lstnew(0, 0, '+', 1)) : 0;
-		// (i == 0) ? printf("=\n\n\n") : 0;
+		(i == 0) ? ft_lstadd_back(lst_terms, ft_lstnew(0, 0, '+', 1)) : 0;
 	}
 	return (NULL);
 }
