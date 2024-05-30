@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 20:14:01 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/30 23:54:27 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/31 00:42:31 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static t_coef *reduce_side(t_polynomial *terms, t_coef *coefs) {
 	return (coefs);
 }
 
-void reduce_equation(t_polynomial *left_terms, t_polynomial *right_terms) {
+static t_coef reduce_equation(t_polynomial *left_terms, t_polynomial *right_terms) {
 	t_coef left_coef = {0.0, 0.0, 0.0};
 	t_coef right_coef = {0.0, 0.0, 0.0};
 	
@@ -63,4 +63,30 @@ void reduce_equation(t_polynomial *left_terms, t_polynomial *right_terms) {
 	right_coef = (t_coef){0.0, 0.0, 0.0};
 	printf("a = %.1f, b = %.1f, c = %.1f\n", left_coef.a, left_coef.b, left_coef.c);
 	display_reduced(left_coef, left_terms);
+	return (left_coef);
+}
+
+int solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polynomial *terms) {
+	int degree;
+	t_coef coefs;
+	
+	coefs = reduce_equation(left_terms, right_terms);
+	if ((degree = polynomial_degree(terms)) < 0)
+		return (1);
+	if (degree == 0) {
+		printf("Handle errors here\n");
+	} else if (degree == 1) {
+		printf("Linear expression\n");
+	} else if (degree == 2) {
+		float delta = (coefs.b * coefs.b) - (4 * coefs.a * coefs.c);
+		printf("Discriminant = %f\n", delta);
+		if (delta > 0) {
+			printf("Two solutions in R\n");
+		} else if (delta == 0) {
+			printf("One solution in R\n");
+		} else {
+			printf("No solution in R, but two solutions in C\n");
+		}
+	}
+	return (0);
 }

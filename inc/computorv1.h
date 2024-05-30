@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:23:43 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/30 23:02:31 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/31 00:25:25 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ char					*parse_argument(char *argv, t_polynomial **lst_terms);
 int						is_digit(char c);
 
 // Solving equation
-void 					reduce_equation(t_polynomial *left_terms, t_polynomial *right_terms);
+int 					solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polynomial *terms);
+int 					polynomial_degree(t_polynomial *terms);
 
 // Free
 void					free_all(t_polynomial *terms, t_polynomial *left_terms,

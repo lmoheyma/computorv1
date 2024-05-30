@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:56:49 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/30 20:47:54 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/31 00:02:31 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void add_to_list(char *term, char sign, t_polynomial **lst_terms) {
 	}
 	ft_lstadd_back(lst_terms, ft_lstnew(coefficient, exponent, sign, 0));
 }
-
 
 char	*parse_argument(char *argv, t_polynomial **lst_terms)
 {
