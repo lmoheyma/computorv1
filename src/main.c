@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:25:44 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/30 14:53:40 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:07:54 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,7 @@ int main(int argc, char **argv) {
 		print_error("Wrong number of arguments");
 	if ((error_msg = parse_argument(argv[1], &terms)))
 		print_error(error_msg);
+	printf("LIST TERMS: \n\n\n");
+	print_lst(&terms);
+	// split_lists(&terms);
 }

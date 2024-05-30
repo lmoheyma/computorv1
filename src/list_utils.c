@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:39:25 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/30 15:21:00 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:06:20 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ void	ft_lstadd_back(t_polynomial **lst, t_polynomial *new)
 	}
 }
 
-t_polynomial	*ft_lstnew(int coefficient, int exponent)
+t_polynomial	*ft_lstnew(double coefficient, int exponent, char sign, int flag)
 {
 	t_polynomial	*list;
 
 	list = malloc(sizeof(*list));
 	if (!list)
 		return (NULL);
-	list->sign = '+';
+	list->sign = sign;
 	list->coefficient = coefficient;
 	list->exponent = exponent;
-	list->separator = 0;
+	list->separator = flag;
 	list->next = NULL;
 	return (list);
 }
@@ -67,12 +67,17 @@ t_polynomial	*ft_lstlast(t_polynomial *lst)
 	return (lst);
 }
 
-
 void print_lst(t_polynomial *terms) {
 	int i = 0;
 	
+	if (!terms)
+		return ;
+	terms = terms->next;
 	while (terms) {
-		printf("Terms[%d] : %d * X^%d\n", i, terms->coefficient, terms->exponent);
+		if (terms->separator)
+			printf("\n<-- Separator [=] -->\n\n");
+		else
+			printf("Terms[%d] : %c%.1f * X^%d\n", i, terms->sign, terms->coefficient, terms->exponent);
 		terms = terms->next;
 		i++;
 	}
