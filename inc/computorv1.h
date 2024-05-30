@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:23:43 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/29 21:59:29 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:20:39 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 #include <string.h>
 
 typedef struct s_polynomial {
+	char sign;
 	int coefficient;
 	int exponent;
+	int	separator;
 	struct s_polynomial *next;
 } t_polynomial;
 
@@ -35,6 +37,6 @@ void print_lst(t_polynomial *terms);
 t_polynomial	*ft_lstlast(t_polynomial *lst);
 
 // Parsing equation
-char	*parse_argument(char *argv, t_polynomial *terms);
+char	*parse_argument(char *argv, t_polynomial *lst_terms);
 
 #endif

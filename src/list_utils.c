@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:39:25 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/29 21:58:27 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:21:00 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ t_polynomial	*ft_lstnew(int coefficient, int exponent)
 	list = malloc(sizeof(*list));
 	if (!list)
 		return (NULL);
+	list->sign = '+';
 	list->coefficient = coefficient;
 	list->exponent = exponent;
+	list->separator = 0;
 	list->next = NULL;
 	return (list);
 }
