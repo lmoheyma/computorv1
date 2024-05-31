@@ -27,7 +27,6 @@ int	is_digit(char c)
 
 void	print_error(char *error_msg)
 {
-	write(2, error_msg, strlen(error_msg));
-	write(2, "\n", 1);
+	printf(BOLDRED"%s\n"RESET, error_msg);
 	exit(EXIT_FAILURE);
 }

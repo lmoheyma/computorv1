@@ -16,12 +16,11 @@ int main(int argc, char **argv) {
 	t_polynomial *terms = NULL;
 	t_polynomial *left_terms = NULL;
 	t_polynomial *right_terms = NULL;
-	char	*error_msg;
 	
 	if (argc != 2)
 		print_error("Wrong number of arguments");
-	if ((error_msg = parse_argument(argv[1], &terms)))
-		print_error(error_msg);
+	if ((parse_argument(argv[1], &terms)))
+		return (print_error("Invalid syntax"), free_all(terms, left_terms, right_terms), 1);
 	split_list(&terms, &left_terms, &right_terms);
 	// printf("Left terms:\n");
 	// print_lst(left_terms);

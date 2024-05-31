@@ -50,7 +50,7 @@ void					split_list(t_polynomial **terms,
 void					free_list(t_polynomial *terms);
 
 // Parsing equation
-char					*parse_argument(char *argv, t_polynomial **lst_terms);
+int						parse_argument(char *argv, t_polynomial **lst_terms);
 
 // Parsing utils
 int						is_digit(char c);

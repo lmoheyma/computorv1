@@ -22,7 +22,7 @@ float ft_pgcd(float a, float b) {
 	if (ft_fabs(b) < 0.001)
 		return (a);
 	else
-		return (ft_pgcd(b, a - floor(a / b) * b));
+		return (ft_pgcd(b, a - (int)(a / b) * b));
 }
 
 float ft_sqrt(float nb) {
