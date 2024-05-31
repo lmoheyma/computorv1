@@ -6,12 +6,11 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:00:18 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/31 18:57:43 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/31 21:40:12 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computorv1.h"
-#include <math.h>
 
 float ft_fabs(float nb) {
 	return (nb < 0.0 ? -nb : nb);

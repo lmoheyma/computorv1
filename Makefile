@@ -26,7 +26,7 @@ obj :
 $(NAME) : $(OBJS)
 	@echo "\n"
 	@echo "\033[0;32mCompiling computorv1..."
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE) -lm
+	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE)
 	@echo "\n\033[0mDone !"
 
 obj/%.o : %.c

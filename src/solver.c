@@ -6,12 +6,11 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 20:14:01 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/31 21:29:08 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/31 21:40:10 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computorv1.h"
-#include <math.h>
 
 static void irreductible_fraction(float *num, float *denominator) {
 	float pgcd = ft_pgcd(ft_fabs(*num), ft_fabs(*denominator));
