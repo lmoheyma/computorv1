@@ -8,7 +8,8 @@ SRCS = src/main.c \
 		src/list_utils.c \
 		src/parsing.c \
 		src/utils.c \
-		src/solver.c
+		src/solver.c \
+		src/maths_utils.c
 
 OBJS_BASE = $(SRCS:.c=.o)
 

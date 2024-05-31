@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 20:14:01 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/31 00:42:31 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:45:39 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void display_reduced(t_coef left_coefs, t_polynomial *terms) {
 	(void)terms;
 
-	printf("Reduced form: ");
+	printf(BOLDWHITE"Reduced form: "RESET);
 	(left_coefs.a != 0.0) ? printf("%.1f * X^2", left_coefs.a) : 0;
 	(left_coefs.a != 0.0 && left_coefs.b != 0.0) ? printf(" + ") : 0;
 	(left_coefs.b != 0.0) ? printf("%.1f * X", left_coefs.b) : 0;
@@ -35,7 +35,6 @@ static void change_sign(t_polynomial *terms) {
 }
 
 static t_coef *reduce_side(t_polynomial *terms, t_coef *coefs) {
-	// t_coef coefs;
 	
 	while (terms) {
 		if (terms->exponent == 0)
@@ -73,19 +72,41 @@ int solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polyno
 	coefs = reduce_equation(left_terms, right_terms);
 	if ((degree = polynomial_degree(terms)) < 0)
 		return (1);
-	if (degree == 0) {
-		printf("Handle errors here\n");
-	} else if (degree == 1) {
-		printf("Linear expression\n");
-	} else if (degree == 2) {
+	printf(BOLDCYAN"/* ************************************************* */\n");
+	printf("/*"BOLDWHITE"                       STEPS                       "BOLDCYAN"*/\n");
+	printf(BOLDCYAN"/* ************************************************* */\n\n"RESET);
+	if (coefs.a == 0.0) {
+		if (coefs.b == 0) {
+			if (coefs.c == 0.0) {
+				
+			}
+		}
+	} else {
 		float delta = (coefs.b * coefs.b) - (4 * coefs.a * coefs.c);
-		printf("Discriminant = %f\n", delta);
+		printf(BOLDCYAN"Coefficients are a = %.2f, b = %.2f and c = %.2f\n\n"RESET, coefs.a, coefs.b, coefs.c);
+		printf(BOLDMAGENTA"Discriminant"RESET" = "BOLDYELLOW"b^2 -4ac"RESET" = (%.2f * %.2f) - (4 * %.2f * %.2f) = "BOLDGREEN"%.2f\n\n"RESET, coefs.b, coefs.b, coefs.a, coefs.c, delta);
 		if (delta > 0) {
-			printf("Two solutions in R\n");
+			float sqrt_delta = ft_sqrt(delta);
+			float numerator_x1 = -coefs.b - sqrt_delta;
+			float numerator_x2 = -coefs.b + sqrt_delta;
+			float denominator = 2 * coefs.a;
+			printf(BOLDWHITE"Δ > 0 -> Discriminant is strictly "BOLDGREEN"positive"BOLDWHITE", the two solutions are:\n"RESET);
+			float x1 = numerator_x1 / denominator;
+			float x2 = numerator_x2 / denominator;
+			printf(BOLDMAGENTA"\tx1"RESET" = "BOLDYELLOW"(-b - (sqrt(Δ) / 2a)"RESET" = (%.2f - %.2f) / (2 * %.2f) = %.2f / %.2f = "BOLDGREEN"%.2f\n"RESET, coefs.b, sqrt_delta, coefs.a, numerator_x1, denominator, x1);
+			printf(BOLDMAGENTA"\tx2"RESET" = "BOLDYELLOW"(-b + (sqrt(Δ) / 2a)"RESET" = (%.2f + %.2f) / (2 * %.2f) = %.2f / %.2f = "BOLDGREEN"%.2f\n", coefs.b, sqrt_delta, coefs.a, numerator_x2, denominator, x2);
 		} else if (delta == 0) {
-			printf("One solution in R\n");
+			float x0 = -coefs.b / (2 * coefs.a);
+			printf(BOLDWHITE"Δ < 0 -> The solution is:\n"RESET);
+			printf(BOLDMAGENTA"\tx0"RESET" = "BOLDYELLOW"-b / (2a)"RESET" = %.2f / (2 * %.2f) = "BOLDGREEN"%.2f\n"RESET, coefs.b, coefs.a, x0);
 		} else {
-			printf("No solution in R, but two solutions in C\n");
+			float k = -delta;
+			printf(BOLDWHITE"Δ < 0 -> No solution in R, but two solutions in C: \n"RESET);
+			printf(BOLDWHITE"Let Δ = -k with k > 0. Then,\n\tsqrt(Δ) = sqrt(-k) = i * sqrt(k)\n");
+			printf("where "BOLDYELLOW"i"BOLDWHITE" is the imaginary unit such as "BOLDYELLOW"i^2 = -1"BOLDWHITE"\nand "BOLDYELLOW"k"BOLDWHITE" = %.2f\n", k);
+			printf("This gives two complex conjugate solutions:\n");
+			printf(BOLDMAGENTA"\tx1"RESET" = "BOLDYELLOW"(-b - (i * sqrt(k))) / 2a"RESET" = "BOLDGREEN"(%.2f - i * %.2f) / 2 * %.2f\n"RESET, coefs.b, ft_sqrt(k) ,coefs.a);
+			printf(BOLDMAGENTA"\tx2"RESET" = "BOLDYELLOW"(-b + (i * sqrt(k))) / 2a"RESET" = "BOLDGREEN"(%.2f + i * %.2f) / 2 * %.2f\n"RESET, coefs.b, ft_sqrt(k), coefs.a);
 		}
 	}
 	return (0);

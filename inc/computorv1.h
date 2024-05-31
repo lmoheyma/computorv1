@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:23:43 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/31 00:25:25 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:58:04 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include "colors.h"
 
 typedef struct s_polynomial
 {
@@ -57,6 +58,7 @@ int						is_digit(char c);
 // Solving equation
 int 					solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polynomial *terms);
 int 					polynomial_degree(t_polynomial *terms);
+float					ft_sqrt(float nb);
 
 // Free
 void					free_all(t_polynomial *terms, t_polynomial *left_terms,
