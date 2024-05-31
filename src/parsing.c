@@ -25,7 +25,9 @@ static int check_invalid_syntax(char *argv) {
 	while (*argv) {
 		if (!is_digit(*argv) && !is_accepted_char(*argv))
 			return (1);
-		if (*argv == 'X' && (*(argv + 1) != ' ' && *(argv + 1) != '^'))
+		if (*argv == 'X' && (*(argv + 1) != ' ' && *(argv + 1) != '^' && *(argv + 1) != '\0'))
+			return (1);
+		if (*argv == 'X' && (*(argv + 2) == '*'))
 			return (1);
 		argv++;
 	}

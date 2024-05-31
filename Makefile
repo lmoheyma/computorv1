@@ -44,6 +44,6 @@ fclean: clean
 	rm -f $(NAME)
 	@echo "\033[0m"
 
-re: fclean $(NAME)
+re: fclean obj $(NAME)
 
 .PHONY: all clean fclean re

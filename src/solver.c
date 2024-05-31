@@ -118,7 +118,7 @@ int solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polyno
 			float x1 = numerator_x1 / denominator_x1;
 			float x2 = numerator_x2 / denominator_x2;
 			printf(BOLDMAGENTA"\tx1"RESET" = "BOLDYELLOW"(-b - (sqrt(Δ) / 2a)"RESET" = (%.2f - %.2f) / (2 * %.2f) = %.2f / %.2f ≃ "BOLDGREEN"%.2f\n"RESET, coefs.b, sqrt_delta, coefs.a, numerator_x1, denominator_x1, x1);
-			printf(BOLDMAGENTA"\tx2"RESET" = "BOLDYELLOW"(-b + (sqrt(Δ) / 2a)"RESET" = (%.2f + %.2f) / (2 * %.2f) = %.2f / %.2f ≃ "BOLDGREEN"%.2f\n", coefs.b, sqrt_delta, coefs.a, numerator_x2, denominator_x2, x2);
+			printf(BOLDMAGENTA"\tx2"RESET" = "BOLDYELLOW"(-b + (sqrt(Δ) / 2a)"RESET" = (%.2f + %.2f) / (2 * %.2f) = %.2f / %.2f ≃ "BOLDGREEN"%.2f\n"RESET, coefs.b, sqrt_delta, coefs.a, numerator_x2, denominator_x2, x2);
 		} else if (delta == 0) {
 			float x0 = -coefs.b / (2 * coefs.a);
 			printf(BOLDWHITE"Δ < 0 -> The solution is:\n"RESET);

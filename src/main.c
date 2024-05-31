@@ -22,10 +22,6 @@ int main(int argc, char **argv) {
 	if ((parse_argument(argv[1], &terms)))
 		return (print_error("Invalid syntax"), free_all(terms, left_terms, right_terms), 1);
 	split_list(&terms, &left_terms, &right_terms);
-	// printf("Left terms:\n");
-	// print_lst(left_terms);
-	// printf("\n\nRight terms:\n");
-	// print_lst(right_terms);
 	if (solve_equation(left_terms, right_terms, terms))
 		return (free_all(terms, left_terms, right_terms), 1);
 	free_all(terms, left_terms, right_terms);
