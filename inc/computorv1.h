@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:23:43 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/31 15:58:04 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:41:45 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int						is_digit(char c);
 int 					solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polynomial *terms);
 int 					polynomial_degree(t_polynomial *terms);
 float					ft_sqrt(float nb);
+float					ft_fabs(float nb);
+float					ft_pgcd(float a, float b);
 
 // Free
 void					free_all(t_polynomial *terms, t_polynomial *left_terms,
