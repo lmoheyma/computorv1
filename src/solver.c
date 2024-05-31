@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 20:14:01 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/31 20:08:58 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/05/31 21:29:08 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void irreductible_fraction_quadratic(float *num_1, float *num_2, float *d
 	
 	(x1_pgcd != 1.0) ? *num_1 /= x1_pgcd, *denominator_x1 /= x1_pgcd : 0;
 	(x2_pgcd != 1.0) ? *num_2 /= x2_pgcd, *denominator_x2 /= x2_pgcd  : 0;
-	printf("x1 = %.2f / %.2f    x2 = %.2f / %.2f\n", *num_1, *denominator_x1, *num_2, *denominator_x2);
 }
 
 static void display_reduced(t_coef left_coefs, t_polynomial *terms) {
@@ -88,20 +87,21 @@ int solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polyno
 	if ((degree = polynomial_degree(terms)) < 0)
 		return (1);
 	printf(BOLDCYAN"/* ************************************************* */\n");
-	printf("/*"BOLDWHITE"                       STEPS                       "BOLDCYAN"*/\n");
+	printf("/*"BOLDYELLOW"                       STEPS                       "BOLDCYAN"*/\n");
 	printf(BOLDCYAN"/* ************************************************* */\n\n"RESET);
 	if (coefs.a == 0.0) {
-		printf(BOLDWHITE"Second-degree polynomial equation of the form:\n\tax + b = 0\n\n");
-		printf(BOLDCYAN"Coefficients are a = %.2f and b = %.2f\n\n"RESET, coefs.b, coefs.c);
-		float x0 = (-(coefs.c / coefs.b));
-		irreductible_fraction(&coefs.c, &coefs.b);
-		printf(BOLDWHITE"The solution is:\n\t"BOLDMAGENTA"x0"RESET" = "BOLDYELLOW"-(b / a)"RESET" = -(%.2f / %.2f) = "BOLDGREEN"%.2f\n"RESET, coefs.c, coefs.b, x0);
-		
 		if (coefs.b == 0) {
-			printf("here2\n");
 			if (coefs.c == 0.0) {
-				printf("here3\n");
+				printf(BOLDRED"Equation has infinite solutions\n"RESET);
+			} else {
+				printf(BOLDRED"Equation has no solution\n"RESET);
 			}
+		} else {
+			printf(BOLDWHITE"Second-degree polynomial equation of the form:\n\tax + b = 0\n\n");
+			printf(BOLDCYAN"Coefficients are a = %.2f and b = %.2f\n\n"RESET, coefs.b, coefs.c);
+			float x0 = (-(coefs.c / coefs.b));
+			irreductible_fraction(&coefs.c, &coefs.b);
+			printf(BOLDWHITE"The solution is:\n\t"BOLDMAGENTA"x0"RESET" = "BOLDYELLOW"-(b / a)"RESET" = -(%.2f / %.2f) = "BOLDGREEN"%.2f\n"RESET, coefs.c, coefs.b, x0);
 		}
 	} else {
 		float delta = (coefs.b * coefs.b) - (4 * coefs.a * coefs.c);
