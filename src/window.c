@@ -6,12 +6,11 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:24:38 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/06/01 18:57:03 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:37:24 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computorv1.h"
-#include <math.h>
 
 double f(double x, t_coef coefs) {
     return (coefs.a * (x * x) + (coefs.b * x) + coefs.c);
