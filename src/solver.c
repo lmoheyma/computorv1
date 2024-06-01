@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 20:14:01 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/05/31 21:40:10 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:27:59 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static t_coef reduce_equation(t_polynomial *left_terms, t_polynomial *right_term
 	return (left_coef);
 }
 
-int solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polynomial *terms) {
+int solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polynomial *terms, int display) {
 	int degree;
 	t_coef coefs;
 	
@@ -101,6 +101,7 @@ int solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polyno
 			float x0 = (-(coefs.c / coefs.b));
 			irreductible_fraction(&coefs.c, &coefs.b);
 			printf(BOLDWHITE"The solution is:\n\t"BOLDMAGENTA"x0"RESET" = "BOLDYELLOW"-(b / a)"RESET" = -(%.2f / %.2f) = "BOLDGREEN"%.2f\n"RESET, coefs.c, coefs.b, x0);
+			(display == 1) ? init_window(coefs) : 0;
 		}
 	} else {
 		float delta = (coefs.b * coefs.b) - (4 * coefs.a * coefs.c);
@@ -119,10 +120,12 @@ int solve_equation(t_polynomial *left_terms, t_polynomial *right_terms, t_polyno
 			float x2 = numerator_x2 / denominator_x2;
 			printf(BOLDMAGENTA"\tx1"RESET" = "BOLDYELLOW"(-b - (sqrt(Δ) / 2a)"RESET" = (%.2f - %.2f) / (2 * %.2f) = %.2f / %.2f ≃ "BOLDGREEN"%.2f\n"RESET, coefs.b, sqrt_delta, coefs.a, numerator_x1, denominator_x1, x1);
 			printf(BOLDMAGENTA"\tx2"RESET" = "BOLDYELLOW"(-b + (sqrt(Δ) / 2a)"RESET" = (%.2f + %.2f) / (2 * %.2f) = %.2f / %.2f ≃ "BOLDGREEN"%.2f\n"RESET, coefs.b, sqrt_delta, coefs.a, numerator_x2, denominator_x2, x2);
+			(display == 1) ? init_window(coefs) : 0;
 		} else if (delta == 0) {
 			float x0 = -coefs.b / (2 * coefs.a);
 			printf(BOLDWHITE"Δ < 0 -> The solution is:\n"RESET);
 			printf(BOLDMAGENTA"\tx0"RESET" = "BOLDYELLOW"-b / (2a)"RESET" = %.2f / (2 * %.2f) ≃ "BOLDGREEN"%.2f\n"RESET, coefs.b, coefs.a, x0);
+			(display == 1) ? init_window(coefs) : 0;
 		} else {
 			float k = -delta;
 			printf(BOLDWHITE"Δ < 0 -> No solution in R, but two solutions in C: \n"RESET);

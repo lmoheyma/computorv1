@@ -2,14 +2,19 @@ CC = cc
 
 FLAGS = -Wall -Wextra -Werror
 
-INCLUDE = -I inc/
+INCLUDE = -Iinc/ -Ideps/include/
+
+GLFW = -lglfw
+GLAD = -ldl
 
 SRCS = src/main.c \
 		src/list_utils.c \
 		src/parsing.c \
 		src/utils.c \
 		src/solver.c \
-		src/maths_utils.c
+		src/maths_utils.c \
+		src/window.c \
+		glad.c
 
 OBJS_BASE = $(SRCS:.c=.o)
 
@@ -26,7 +31,7 @@ obj :
 $(NAME) : $(OBJS)
 	@echo "\n"
 	@echo "\033[0;32mCompiling computorv1..."
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE)
+	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE) $(GLFW) $(GLAD) -lm
 	@echo "\n\033[0mDone !"
 
 obj/%.o : %.c
