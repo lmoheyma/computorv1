@@ -6,15 +6,15 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:24:38 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/06/01 17:18:13 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:57:03 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computorv1.h"
 #include <math.h>
 
-double f(double x) {
-    return sin(x);
+double f(double x, t_coef coefs) {
+    return (coefs.a * (x * x) + (coefs.b * x) + coefs.c);
 }
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
@@ -28,15 +28,10 @@ static void processInput(GLFWwindow *window) {
 }
 
 int init_window(t_coef coefs) {
-	(void)coefs;
 	if (!glfwInit()) {
     	fprintf(stderr, "Failed GLFW initialisation\n");
         return (1);
     }
-
-	// glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Function Plotter", NULL, NULL);
     if (window == NULL) {
@@ -54,30 +49,47 @@ int init_window(t_coef coefs) {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	
 	while (!glfwWindowShouldClose(window)) {
-        // Traitement des entrées
         processInput(window);
 
-        // Effacement de l'écran
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Définir la couleur de la courbe (blanc)
-        glColor3f(1.0f, 1.0f, 1.0f);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glBegin(GL_LINES);
+    		glVertex2f(-2 * M_PI, 0);
+    		glVertex2f(2 * M_PI, 0);
+			glVertex2f(0, -1.0);
+    		glVertex2f(0, 1.0);
+		glEnd();
+		
+		for (double x = -2 * M_PI; x <= 2 * M_PI; x+=M_PI / 3) {
+			// printf("%.2f\n", x);
+			glBegin(GL_LINES);
+				glVertex2f((x - -2 * M_PI) / (2 * M_PI - -2 * M_PI) * 2 - 1, -0.02f);
+            	glVertex2f((x - -2 * M_PI) / (2 * M_PI - -2 * M_PI) * 2 - 1, 0.02f);
+			glEnd();
+		}
 
-        // Tracer la courbe
+		for (double y = -1.0; y <= 1.0; y += 0.2) {
+			// printf("%.2f\n", x);
+			glBegin(GL_LINES);
+				glVertex2f(-0.02f, y);
+				glVertex2f(0.02f, y);
+			glEnd();
+    	}
+		
+        glColor3f(1.0f, 0.0f, 0.0f);
+
         glBegin(GL_LINE_STRIP);
         for (double x = -2 * M_PI; x <= 2 * M_PI; x += 0.01) {
-            double y = f(x);
+            double y = f(x, coefs);
             glVertex2f((x + 2 * M_PI) / (4 * M_PI) * 2 - 1, y);
         }
         glEnd();
 
-        // Échange des tampons et vérification des événements
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
-    // Nettoyage et fermeture
     glfwTerminate();
 
 	return (0);
