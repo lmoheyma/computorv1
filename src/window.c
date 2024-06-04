@@ -3,94 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   window.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louis <louis@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 16:24:38 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/06/01 18:57:03 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:41:43 by louis            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computorv1.h"
-#include <math.h>
+
+int	close_window(t_data *data)
+{
+	mlx_destroy_window(data->mlx, data->win);
+    mlx_destroy_display(data->mlx);
+    free_all(data->terms, data->lt, data->rt);
+    free(data->mlx);
+    exit(EXIT_SUCCESS);
+}
 
 double f(double x, t_coef coefs) {
     return (coefs.a * (x * x) + (coefs.b * x) + coefs.c);
 }
 
-static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-	(void)window;
-    glViewport(0, 0, width, height);
+void put_pixel(t_data *data, int x, int y, int color) {
+    if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) {
+        char *dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
+        *(unsigned int*)dst = color;
+    }
 }
 
-static void processInput(GLFWwindow *window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, 1);
+void draw_axes(t_data *data) {
+    int i;
+
+    for (i = 0; i < WIDTH; i++)
+        put_pixel(data, i, HEIGHT / 2, 0xFFFFFF);
+    for (i = 0; i < HEIGHT; i++)
+        put_pixel(data, WIDTH / 2, i, 0xFFFFFF);
 }
 
-int init_window(t_coef coefs) {
-	if (!glfwInit()) {
-    	fprintf(stderr, "Failed GLFW initialisation\n");
-        return (1);
+void draw_function(t_data *data, t_coef coefs) {
+    int x_pixel;
+    double x, y;
+    int y_pixel;
+
+    for (x_pixel = 0; x_pixel < WIDTH; x_pixel++) {
+        x = (x_pixel - WIDTH / 2) / (50 - data->x_offset);
+        y = f(x, coefs);
+        y_pixel = HEIGHT / 2 - (int)(y * 50 + data->y_offset);
+
+        if (y_pixel >= 0 && y_pixel < HEIGHT)
+            put_pixel(data, x_pixel, y_pixel, 0x88FF88);
     }
+}
 
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Function Plotter", NULL, NULL);
-    if (window == NULL) {
-        fprintf(stderr, "Failed window creation GLFW\n");
-        glfwTerminate();
-        return -1;
+int handle_key(int key, t_data *data) {
+    if (key == ESC_KEY) {
+        mlx_destroy_window(data->mlx, data->win);
+        mlx_destroy_display(data->mlx);
+        free_all(data->terms, data->lt, data->rt);
+        free(data->mlx);
+        exit(EXIT_SUCCESS);
     }
-    glfwMakeContextCurrent(window);
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        fprintf(stderr, "Failed GLAD initialisation \n");
-        return -1;
+    return (0);
+}
+
+int init_window(t_coef coefs, t_polynomial *terms, t_polynomial *left_terms, t_polynomial *right_terms) {
+    t_data data;
+
+    if (!(data.mlx = mlx_init())) {
+        free_all(terms, left_terms, right_terms);
+        exit(EXIT_SUCCESS);
     }
-
-    glViewport(0, 0, WIDTH, HEIGHT);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	
-	while (!glfwWindowShouldClose(window)) {
-        processInput(window);
-
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glBegin(GL_LINES);
-    		glVertex2f(-2 * M_PI, 0);
-    		glVertex2f(2 * M_PI, 0);
-			glVertex2f(0, -1.0);
-    		glVertex2f(0, 1.0);
-		glEnd();
-		
-		for (double x = -2 * M_PI; x <= 2 * M_PI; x+=M_PI / 3) {
-			// printf("%.2f\n", x);
-			glBegin(GL_LINES);
-				glVertex2f((x - -2 * M_PI) / (2 * M_PI - -2 * M_PI) * 2 - 1, -0.02f);
-            	glVertex2f((x - -2 * M_PI) / (2 * M_PI - -2 * M_PI) * 2 - 1, 0.02f);
-			glEnd();
-		}
-
-		for (double y = -1.0; y <= 1.0; y += 0.2) {
-			// printf("%.2f\n", x);
-			glBegin(GL_LINES);
-				glVertex2f(-0.02f, y);
-				glVertex2f(0.02f, y);
-			glEnd();
-    	}
-		
-        glColor3f(1.0f, 0.0f, 0.0f);
-
-        glBegin(GL_LINE_STRIP);
-        for (double x = -2 * M_PI; x <= 2 * M_PI; x += 0.01) {
-            double y = f(x, coefs);
-            glVertex2f((x + 2 * M_PI) / (4 * M_PI) * 2 - 1, y);
-        }
-        glEnd();
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+    if (!(data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "Function Plotter"))) {
+        free_all(terms, left_terms, right_terms);
+        exit(EXIT_SUCCESS);
     }
-    glfwTerminate();
+    data.x_offset = 0.0;
+    data.y_offset = 0.0;
+    data.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
+    data.addr = mlx_get_data_addr(data.img, &data.bpp, &data.line_length, &data.endian);
+    
+    data.terms = terms;
+    data.lt = left_terms;
+    data.rt = right_terms;
+    data.coefs = coefs;
 
-	return (0);
+    draw_axes(&data);
+    draw_function(&data, coefs);
+
+    mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
+    mlx_destroy_image(data.mlx, data.img);
+
+    mlx_key_hook(data.win, handle_key, &data);
+    mlx_hook(data.win, 17, 0, close_window, &data);
+
+    mlx_loop(data.mlx);
+    
+    return (0);
 }
