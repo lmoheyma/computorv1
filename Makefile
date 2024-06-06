@@ -27,6 +27,7 @@ obj :
 	mkdir -p obj/src
 
 $(NAME) : $(OBJS)
+	make -C mlx/
 	@echo "\n"
 	@echo "\033[0;32mCompiling computorv1..."
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE) $(MLX)
