@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   computorv1.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louis <louis@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:23:43 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/06/01 17:28:12 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:40:55 by louis            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 # define COMPUTORV1_H
 
 # include "colors.h"
-# include "glad/glad.h"
+#include "mlx.h"
 
-# include <GLFW/glfw3.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -24,6 +23,9 @@
 
 #define WIDTH 800
 #define HEIGHT 600
+#define ESC_KEY 65307
+#define SCROLL_UP 4
+#define SCROLL_DOWN 5
 #define M_PI       3.14159265358979323846
 
 typedef struct s_polynomial
@@ -41,6 +43,22 @@ typedef struct s_coef
 	float				b;
 	float				c;
 }						t_coef;
+
+typedef struct s_data {
+    void *mlx;
+    void *win;
+    void *img;
+    char *addr;
+    int bpp;
+    int line_length;
+    int endian;
+    double x_offset;
+    double y_offset;
+	t_polynomial *terms;
+	t_polynomial *lt;
+	t_polynomial *rt;
+	t_coef coefs;
+} t_data;
 
 // Handle errors
 void					print_error(char *error_msg);
@@ -76,6 +94,7 @@ void					free_all(t_polynomial *terms, t_polynomial *left_terms,
 							t_polynomial *right_terms);
 
 // Window
-int						init_window(t_coef coefs);
+int						init_window(t_coef coefs, t_polynomial *terms, t_polynomial *left_terms,
+							t_polynomial *right_terms);
 
 #endif

@@ -2,10 +2,9 @@ CC = cc
 
 FLAGS = -Wall -Wextra -Werror
 
-INCLUDE = -Iinc/ -Ideps/include/
+INCLUDE = -Iinc/ -Imlx/
 
-GLFW = -lglfw
-GLAD = -ldl
+MLX = mlx/libmlx_Linux.a -L mlx -lXext -lX11
 
 SRCS = src/main.c \
 		src/list_utils.c \
@@ -13,8 +12,7 @@ SRCS = src/main.c \
 		src/utils.c \
 		src/solver.c \
 		src/maths_utils.c \
-		src/window.c \
-		glad.c
+		src/window.c
 
 OBJS_BASE = $(SRCS:.c=.o)
 
@@ -31,7 +29,7 @@ obj :
 $(NAME) : $(OBJS)
 	@echo "\n"
 	@echo "\033[0;32mCompiling computorv1..."
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE) $(GLFW) $(GLAD) -lm
+	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE) $(MLX)
 	@echo "\n\033[0mDone !"
 
 obj/%.o : %.c
@@ -39,6 +37,7 @@ obj/%.o : %.c
 	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
+	make clean -C mlx/
 	@echo "\033[0;31m"
 	@echo "\nRemoving binaries..."
 	rm -f $(OBJS)
